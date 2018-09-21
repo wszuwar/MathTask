@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class MathTaskDto {
     private Long id;
     private int a ;
-    private  int b;
     private String taskType;
+    private  int b;
+
 }
