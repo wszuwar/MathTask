@@ -13,5 +13,7 @@ public class MathTaskDto {
     private int a ;
     private String taskType;
     private  int b;
+    private int result;
+    private boolean isCorrect;
 
 }
