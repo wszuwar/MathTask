@@ -20,13 +20,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser(adminConfig.getAdminName())
                 .password(adminConfig.getAdminPassword())
                 .roles(adminConfig.getAdminRole());
-        auth.inMemoryAuthentication().withUser("User").password("user").roles("USER");
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().anyRequest().hasRole("ADMIN").and().httpBasic();
-        http.authorizeRequests().anyRequest().hasRole("USER").and().httpBasic();
+
     }
 }
