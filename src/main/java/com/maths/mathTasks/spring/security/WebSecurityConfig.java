@@ -14,14 +14,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    AdminConfig adminConfig;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -32,11 +32,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
+
+    @Autowired
+    AdminConfig adminConfig;
+
     @Bean
     @Override
     public UserDetailsService userDetailsService(){
         UserDetails admin =
-                User.withDefaultPasswordEncoder()
+               User.withDefaultPasswordEncoder()
                 .username(adminConfig.getAdminName())
                 .password(adminConfig.getAdminPassword())
                 .roles(adminConfig.getAdminRole())

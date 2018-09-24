@@ -1,4 +1,4 @@
-package com.maths.mathTasks.controller;
+package com.maths.mathTasks.spring.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MvcConfig implements WebMvcConfigurer{
 
 
-    @Override
+
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/home").setViewName("home");
         registry.addViewController("/").setViewName("home");
