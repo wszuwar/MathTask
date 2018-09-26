@@ -47,8 +47,8 @@ $(document).ready(function() {
 
         var firstNum = parentEl.find('[data-task-firstNum-input]').val();
         var type = parentEl.find('[data-task-type-input]').val();
-        var  secondNum = parentEl.find('[data-task-secondNum-input]');
-        var requestUrl = apiRoot + 'updateTask';
+        var  secondNum = parentEl.find('[data-task-secondNum-input]').val();
+        var requestUrl = apiRoot + 'updateMathTask';
 
         $.ajax({
             url: requestUrl,
@@ -59,19 +59,77 @@ $(document).ready(function() {
             data: JSON.stringify({
                 id: taskId,
                 a: firstNum,
-               type: type,
+                type: type,
                 b:secondNum
             }),
             success: function(data) {
                 parentEl.attr('data-task-id', data.id).toggleClass('datatable__row--editing');
                 parentEl.find('[data-task-firstNum-paragraph]').number(firstNum);
                 parentEl.find('[data-task-type-paragraph]').text(type);
-                parentEl.find('[data-task-secondNum-input]').number(secondNum);
+                parentEl.find('[data-task-secondNum-paragraph]').number(secondNum);
             }
         });
     }
+    function handleTaskDeleteRequest() {
+        var parentEl = $(this).parent().parent();
+        var taskId = parentEl.attr('data-task-id');
+        var requestUrl = apiRoot + 'deleteMathTask';
+
+        $.ajax({
+            url: requestUrl + '/?' + $.param({
+                taskId: taskId
+            }),
+            method: 'DELETE',
+            success: function() {
+                parentEl.slideUp(400, function() { parentEl.remove(); });
+            }
+        })
+    }
+    function handleTaskSubmitRequest(event) {
+        event.preventDefault();
+
+        var firstNum = $(this).find('[name="numberA"]').val();
+        var type = $(this).find('[name="type"]').val();
+        var secondNum = $(this).find('[name="numberB"]').val();
+
+        var requestUrl = apiRoot + 'createMathTask';
+
+        $.ajax({
+            url: requestUrl,
+            method: 'POST',
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+                id: taskId,
+                a: firstNum,
+                type: type,
+                b:secondNum
+            }),
+            complete: function(data) {
+                if(data.status === 200) {
+                    getAllMathTasks();
+                }
+            }
+        });
+    }
+    function toggleEditingState() {
+        var parentEl = $(this).parent().parent();
+        parentEl.toggleClass('datatable__row--editing');
+
+        var firstNum = parentEl.find('[data-task-firstNum-paragraph]').number();
+        var type =  parentEl.find('[data-task-type-paragraph]').text();
+        var secondNum =  parentEl.find('[data-task-secondNum-paragraph]').number();
+
+        parentEl.find('[data-task-firstNum-input]').val(firstNum);
+        parentEl.find('[data-task-type-input]').val(type);
+        parentEl.find('[data-task-secondNum-input]').val(secondNum);
+    }
 
 
+
+
+    $('[data-task-add-form]').on('submit', handleTaskSubmitRequest);
     tasksContainer.on('click','[data-task-edit-button]', toggleEditingState);
     tasksContainer.on('click','[data-task-edit-abort-button]', toggleEditingState);
     tasksContainer.on('click','[data-task-submit-update-button]', handleTaskUpdateRequest);
