@@ -1,11 +1,12 @@
 $(document).ready(function() {
 
-    var apiRoot = 'http://localhost:8080/v1/mathTask/';
-    var datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
+    const apiRoot = 'http://localhost:8080/v1/';
+    const datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
     var tasksContainer = $('[data-tasks-container]');
 
+
     // init
-    getAllTasks();
+    getAllMathTasks();
 
     function createElement(data) {
         var element = $(datatableRowTemplate).clone();
@@ -30,13 +31,13 @@ $(document).ready(function() {
 
     function handleDatatableRender(data) {
         tasksContainer.empty();
-        data.forEach(function(task) {
-            createElement(task).appendTo(tasksContainer);
+        data.forEach(function(mathTask) {
+            createElement(mathTask).appendTo(tasksContainer);
         });
     }
 
-    function getAllTasks() {
-        var requestUrl = apiRoot + 'getMathTasks';
+    function getAllMathTasks() {
+        var requestUrl = apiRoot + 'mathTasks';
 
         $.ajax({
             url: requestUrl,
@@ -46,7 +47,7 @@ $(document).ready(function() {
     }
 
     function handleTaskUpdateRequest() {
-        var parentEl = $(this).parent().parent();
+        var parentEl = $(this).parents('[data-task-id]');
         var taskId = parentEl.attr('data-task-id');
         var firstNumber = parentEl.find('[data-task-firstNumber-input]').val();
         var taskType = parentEl.find('[data-task-taskType-input]').val();
@@ -54,7 +55,7 @@ $(document).ready(function() {
         var taskLvl = parentEl.find('[data-task-taskLvl-input]').val();
         var reply = parentEl.find('[data-task-reply-input]').val();
 
-        var requestUrl = apiRoot + 'updateMathTask';
+        var requestUrl = apiRoot + 'mathTasks';
 
         $.ajax({
             url: requestUrl,
@@ -73,9 +74,9 @@ $(document).ready(function() {
             }),
             success: function(data) {
                 parentEl.attr('data-task-id', data.id).toggleClass('datatable__row--editing');
-                parentEl.find('[data-task-name-paragraph]').value(a);
+                parentEl.find('[data-task-name-paragraph]').value(firstNumber);
                 parentEl.find('[data-task-taskType-paragraph]]').text(taskType);
-                parentEl.find('[data-task-secondNumber-paragraph]').value(b);
+                parentEl.find('[data-task-secondNumber-paragraph]').value(secondNumber);
                 parentEl.find('[data-task-taskLvl-paragraph]').value(taskLvl);
                 parentEl.find('[data-task-reply-paragraph]').value(reply);
 
@@ -85,14 +86,12 @@ $(document).ready(function() {
     }
 
   function handleTaskDeleteRequest() {
-    var parentEl = $(this).parent().parent();
+    var parentEl = $(this).parents('[data-task-id]');
     var taskId = parentEl.attr('data-task-id');
-    var requestUrl = apiRoot + 'deleteTask';
+    var requestUrl = apiRoot + 'deleteMathTask';
 
     $.ajax({
-      url: requestUrl + '/?' + $.param({
-        taskId: taskId
-      }),
+      url: requestUrl + '/' + taskId,
       method: 'DELETE',
       success: function() {
         parentEl.slideUp(400, function() { parentEl.remove(); });
@@ -110,7 +109,7 @@ $(document).ready(function() {
     var reply = $(this).find('[name="reply"]').val();
 
 
-    var requestUrl = apiRoot + 'createMathTask';
+    var requestUrl = apiRoot + 'mathTasks';
 
     $.ajax({
       url: requestUrl,
@@ -127,7 +126,7 @@ $(document).ready(function() {
       }),
       complete: function(data) {
         if(data.status === 200) {
-          getAllTasks();
+          getAllMathTasks();
         }
       }
     });

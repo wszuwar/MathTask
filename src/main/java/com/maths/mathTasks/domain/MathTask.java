@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "math_Tasks")
+@Entity(name = "math_tasks")
 public class MathTask {
 
     @Id

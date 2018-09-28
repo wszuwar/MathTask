@@ -29,7 +29,7 @@ public class MathTaskDto {
     @JsonProperty("result")
     private int result;
 
-    @JsonProperty("isCorrect")
+    @JsonProperty("correct")
     private boolean isCorrect;
 
     @JsonProperty("taskLvl")
