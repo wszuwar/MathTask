@@ -34,5 +34,11 @@ public class MathTask {
     @Column(name = "correct")
     private boolean isCorrect;
 
+    @Column(name = "task_lvl")
+    private int taskLvl;
+
+    @Column(name = "reply")
+    private int reply;
+
 
 }

@@ -75,7 +75,7 @@ body {
 
 .datatable__row input,
 .datatable__row textarea {
-    display: none; }
+    display: none;  }
 
 .datatable__row .datatable__button--editing {
     display: none; }

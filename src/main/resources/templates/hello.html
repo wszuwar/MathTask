@@ -2,98 +2,123 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Math Task APP</title>
-    <link rel="stylesheet" href="style.css"/>
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>CRUD</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link  href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i ;subset=latin-ext" rel="stylesheet" />
 </head>
 <body>
-<h1  th:inline="text">Hello [[${#httpServletRequest.remoteUser}]] In Math Task APP!</h1>
+<h1 class="kodilla-heading kodilla-heading--main" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<h1 class="kodilla-heading kodilla-heading--main">Lest's do some Math</h1>
 
 <main class="crud container">
-    <section class="datatable">
-        <h2>Add a new MathT ask</h2>
-        <form
-                class="datatable__row datatable__row--add"
-                method="POST"
-                action="http://localhost:8080/v1/mathTask/createMathTask"
-                data-task-add-form
-        >
-            <fieldset class="datatable__row-section datatable__row-section--input-section">
-                <label class="datatable__input-label">
-                    First number
-                </label>
-                <input type="number" name="A" placeholder="A" required minlength="1">
-            </fieldset>
+  <section class="datatable">
+    <h2>Add a new task</h2>
+    <form
+      class="datatable__row datatable__row--add"
+      method="POST"
+      action="http://localhost:8080/v1/mathTask/createMathTask"
+      data-task-add-form
+>
+<fieldset class="datatable__row-section datatable__row-section--input-section">
+  <label class="datatable__input-label">
+     First number
+   </label>
+   <input type="number" name="firstNumber" placeholder="First-Number" required minlength="1">
+ </fieldset>
 
-            <fieldset class="datatable__row-section datatable__row-section--input-section">
-                <label class="datatable__input-label">
-                    Task type
-                </label>
-                <input type="text" name="Task type" placeholder="Task type"  maxlength="1">
-            </fieldset>
+ <fieldset class="datatable__row-section datatable__row-section--input-section">
+   <label class="datatable__input-label">
+     Task type
+   </label>
+   <input type="text" name="taskType" placeholder="Insert task type" required maxlength="1">
+ </fieldset>
 
-            <fieldset class="datatable__row-section datatable__row-section--input-section">
-                <label class="datatable__input-label">
-                    Second number
-                    <input type="number" name="B" placeholder="B" required minlength="1">
-                </label>
-            </fieldset>
+ <fieldset class="datatable__row-section datatable__row-section--input-section">
+   <label class="datatable__input-label">
+      Second number
+    </label>
+    <input type="number" name="secondNumber" placeholder="Second-Number" required minlength="1">
+  </fieldset>
 
-            <fieldset class="datatable__row-section datatable__row-section--button-section">
-                <button type="submit" data-task-add-button class="datatable__button">Add a task</button>
-            </fieldset>
-        </form>
-    </section>
-    <section class="datatable">
-        <h2>Tasks from the API</h2>
-        <div class="datatable__tasks-container" data-tasks-container></div>
-    </section>
+  <fieldset class="datatable__row-section datatable__row-section--input-section">
+    <label class="datatable__input-label">
+       Task lvl
+     </label>
+     <input type="number" name="taskLvl" placeholder="Task-Lvl" required maxlength="2">
+   </fieldset>
+
+   <fieldset class="datatable__row-section datatable__row-section--input-section">
+     <label class="datatable__input-label">
+        Reply
+      </label>
+      <input type="number" name="reply" placeholder="reply" required minlength="1">
+    </fieldset>
+
+   <fieldset class="datatable__row-section datatable__row-section--button-section">
+     <button type="submit" data-task-add-button class="datatable__button">Add a task</button>
+   </fieldset>
+ </form>
+</section>
+<section class="datatable">
+  <h2>Tasks from the API</h2>
+  <div class="datatable__tasks-container" data-tasks-container></div>
+</section>
 </main>
-
 <div class="template" data-datatable-row-template>
-    <form class="datatable__row" data-task-id="0">
-        <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-name-section>
-            <label class="datatable__input-label">
-                First number
-            </label>
-            <input type="number" name="A" placeholder="Insert new Number" data-task-firstNum-input required minlength="1">
-            <p class="datatable__field-value" data-task-firstNum-paragraph></p>
-        </fieldset>
-        <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-type-section>
-            <label class="datatable__input-label">
-                Task type
-            </label>
-            <input type="text" name="Task type" placeholder="Insert new Task type" data-task-type-input maxlength="1">
-            <p class="datable__field-value" data-task-type-paragraph></p>
-        </fieldset>
-        <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-secNum-input required minlenght="1">
-            <label class="datatable__input-label">
-                Second number
-            </label>
-            <input type="number" name="B" placeholder="Insert new Number" data-task-secondNum-input required minlength="1">
-            <p class="datable__field-value" data-task-secondNum-paragraph></p>
-        </fieldset>
+  <form class="datatable__row" data-task-id="0">
+    <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-firstNumber-section>
+      <label class="datatable__input-label">
+        First number
+      </label>
+      <input type="number" name="firstNumber" placeholder="Insert a new First-Number" data-task-firstNumber-input required minlength="1">
+      <p class="datatable__field-value" data-task-firstNumber-paragraph></p>
+    </fieldset>
 
-        <div class="datatable__row-section-wrapper">
-            <fieldset class="datatable__row-section datatable__row-section--button-section">
-                <button type="button" data-task-submit-update-button class="datatable__button datatable__button--editing ">Submit update</button>
-                <button type="button" data-task-edit-abort-button class="datatable__button datatable__button--editing">Abort update</button>
-                <button type="button" data-task-edit-button class="datatable__button">Edit</button>
-                <button type="button" data-task-delete-button class="datatable__button">Delete</button>
-            </fieldset>
+    <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-taskType-section>
+      <label class="datatable__input-label">
+        Task type
+      </label>
+      <input type="text" name="taskType" placeholder="Insert a new task type"  data-task-taskType-input required maxlength="1">
+      <p class="datatable__field-value" data-task-taskType-paragraph></p>
+    </fieldset>
 
+    <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-secondNumber-section>
+      <label class="datatable__input-label">
+        Second number
+      </label>
+      <input type="number" name="secondNumber" placeholder="Insert a new Second-Number" data-task-secondNumber-input required minlength="1">
+      <p class="datatable__field-value" data-task-secondNumber-paragraph></p>
+    </fieldset>
+
+    <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-taskLvl-section>
+      <label class="datatable__input-label">
+        Task lvl
+      </label>
+      <input type="number" name="taskLvl" placeholder="Insert a new Task-Lvl" data-task-taskLvl-input required maxlength="2">
+      <p class="datatable__field-value" data-task-taskLvl-paragraph></p>
+    </fieldset>
+
+    <fieldset class="datatable__row-section datatable__row-section--input-section" data-task-reply-section>
+      <label class="datatable__input-label">
+        Reply
+      </label>
+      <input type="number" name="reply" placeholder="Insert result " data-task-reply-input required minlength="1">
+      <p class="datatable__field-value" data-task-reply-paragraph></p>
+    </fieldset>
+
+    <fieldset class="datatable__row-section datatable__row-section--button-section">
+    <button type="button" data-task-submit-update-button class="datatable__button datatable__button--editing ">Submit update</button>
+    <button type="button" data-task-edit-abort-button class="datatable__button datatable__button--editing">Abort update</button>
+    <button type="button" data-task-edit-button class="datatable__button">Edit</button>
+    <button type="button" data-task-delete-button class="datatable__button">Delete</button>
+    </fieldset>
+  </form>
 </div>
 
-
-
-</form>
-</div>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<script src="jquery-3.2.1.min.js"></script>
-<script src="script.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

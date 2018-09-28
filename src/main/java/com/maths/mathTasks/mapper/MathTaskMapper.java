@@ -17,7 +17,9 @@ public class MathTaskMapper {
                 mathTaskDto.getTaskType(),
                 mathTaskDto.getB(),
                 mathTaskDto.getResult(),
-                mathTaskDto.isCorrect()
+                mathTaskDto.isCorrect(),
+                mathTaskDto.getTaskLvl(),
+                mathTaskDto.getReply()
         );
     }
     public MathTaskDto mapToMathTaskDto(final MathTask mathTask){
@@ -27,12 +29,14 @@ public class MathTaskMapper {
                 mathTask.getTaskType(),
                 mathTask.getB(),
                 mathTask.getResult(),
-                mathTask.isCorrect()
+                mathTask.isCorrect(),
+                mathTask.getTaskLvl(),
+                mathTask.getReply()
         );
     }
     public List<MathTaskDto> mapToMathTaskDtoList(final List<MathTask> mathTaskList){
         return mathTaskList.stream()
-                .map(m -> new MathTaskDto(m.getId(), m.getA(), m.getTaskType(), m.getB(), m.getResult(), m.isCorrect()))
+                .map(m -> new MathTaskDto(m.getId(), m.getA(), m.getTaskType(), m.getB(), m.getResult(), m.isCorrect(),m.getTaskLvl(),m.getReply()))
                 .collect(Collectors.toList());
     }
 }

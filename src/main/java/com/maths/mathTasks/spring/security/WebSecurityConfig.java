@@ -20,7 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 
                 .authorizeRequests()
-                .antMatchers("/v1/mathTask/getMathTasks").authenticated()
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
                 .and()
