@@ -1,6 +1,5 @@
 package com.maths.mathTasks.controller;
 
-import com.maths.mathTasks.config.AdminConfig;
 import com.maths.mathTasks.domain.MathTaskDto;
 import com.maths.mathTasks.mapper.MathTaskMapper;
 import com.maths.mathTasks.service.DbService;
@@ -13,7 +12,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v2")
 public class MathTaskController {
 
 
