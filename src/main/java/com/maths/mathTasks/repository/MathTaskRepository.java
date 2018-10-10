@@ -11,6 +11,9 @@ public interface MathTaskRepository extends CrudRepository<MathTask, Long> {
     @Override
     List<MathTask> findAll();
 
+
+    List<MathTask> findAllByTaskLvl(Integer integer);
+
     @Override
     MathTask findOne(Long aLONG);
 

@@ -17,6 +17,9 @@ public class DbService {
     public List<MathTask> getAllMathTasks(){
         return repository.findAll();
     }
+    public List<MathTask>getAllMathTasksByTaskLvl(final Integer taskLvl){
+        return repository.findAllByTaskLvl(taskLvl);
+    }
 
     public MathTask getMathTaskById(final Long id){
         return repository.findOne(id);
