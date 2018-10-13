@@ -26,7 +26,10 @@ public class MathTaskController {
     public List<MathTaskDto> getMathTasks() {
 
         return mathTaskMapper.mapToMathTaskDtoList(service.getAllMathTasks());
-
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/mathTasks/{mathTaskLvl}")
+    public List<MathTaskDto> getMathTasksForLvl(@RequestParam (defaultValue = "2") Integer mathTaskLvl){
+        return mathTaskMapper.mapToMathTaskDtoList(service.getAllMathTasksByTaskLvl(mathTaskLvl));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mathTasks/{mathTaskId}")
