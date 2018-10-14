@@ -14,6 +14,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+    public SecurityConfig(){
+        super();
+    }
+
     @Bean("authenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception{
@@ -23,9 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.inMemoryAuthentication().passwordEncoder(org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance())
-                .withUser("user").password("password").roles("USER")
+                .withUser("user").password("password").authorities("USER")
                 .and()
-                .withUser("admin").password("password").roles("ADMIN");
+                .withUser("admin").password("password").authorities("ADMIN");
     }
     @Bean
     public AuthenticationSuccessHandler mySuccesHandler(){
@@ -33,14 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception{
+    protected void configure( HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("http://localhost:8888/math_task/login.html")
-                .loginProcessingUrl("/login.html")
+                .loginProcessingUrl("/login")
                 .successHandler(mySuccesHandler())
                 .and()
                 .logout()

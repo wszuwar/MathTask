@@ -1,8 +1,9 @@
 package com.maths.mathTasks.config;
 
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -20,6 +21,11 @@ public class MyUrlAuthenticationSuccessHandler implements AuthenticationSuccessH
     protected Log logger = LogFactory.getLog(this.getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    public MyUrlAuthenticationSuccessHandler() {
+        super();
+    }
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -62,9 +68,9 @@ public class MyUrlAuthenticationSuccessHandler implements AuthenticationSuccessH
         }
 
         if (isUser) {
-            return "http://localhost:8888/math_task/user.html";
+            return "/user.html";
         } else if (isAdmin) {
-            return "http://localhost:8888/math_task/admin.html";
+            return "/admin.html";
         } else {
             throw new IllegalStateException();
         }
