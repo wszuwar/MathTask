@@ -1,44 +1,62 @@
 package com.maths.mathTasks.controller;
 
 import com.maths.mathTasks.domain.MathTaskDto;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.maths.mathTasks.mapper.MathTaskMapper;
+import com.maths.mathTasks.service.DbService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/mathTask")
+@RequestMapping("/v2")
 public class MathTaskController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "getMathTasksNikodem")
-    public List<MathTaskDto> getMathTasksNikodem(){
-        return new ArrayList<>();
+
+    @Autowired
+    private DbService service;
+
+    @Autowired
+    private MathTaskMapper mathTaskMapper;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/mathTasks")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public List<MathTaskDto> getMathTasks() {
+
+        return mathTaskMapper.mapToMathTaskDtoList(service.getAllMathTasks());
     }
-    @RequestMapping(method = RequestMethod.GET, value = "getMathTasksMarcel")
-    public List<MathTaskDto> getMathTasksMarcel(){
-        return new ArrayList<>();
+    @RequestMapping(method = RequestMethod.GET, value = "/mathTasks/{mathTaskLvl}")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public List<MathTaskDto> getMathTasksForLvl(@RequestParam (defaultValue = "2") Integer mathTaskLvl){
+        return mathTaskMapper.mapToMathTaskDtoList(service.getAllMathTasksByTaskLvl(mathTaskLvl));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getMathTask")
-    public MathTaskDto getMathTask(Long mathTaskId){
-        return new MathTaskDto(1L, 1, 1);
-    }
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteMathTask")
-    public void deleteMathTask(Long mathTaskId){
-
-    }
-    @RequestMapping(method = RequestMethod.PUT, value = "updateMathTask")
-    public MathTaskDto updateMathTask(MathTaskDto mathTaskDto){
-        return new MathTaskDto(1l, 2, 3);
+    @RequestMapping(method = RequestMethod.GET, value = "/mathTasks/{mathTaskId}")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public MathTaskDto getMathTask(@PathVariable Long mathTaskId) throws MathTaskNotFound {
+        return mathTaskMapper.mapToMathTaskDto(service.getMathTask(mathTaskId).orElseThrow(MathTaskNotFound::new));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createMathTask")
-    public void createMathTask(MathTaskDto mathTaskDto){
+    @RequestMapping(method = RequestMethod.DELETE, value = "/mathTasks/{mathTaskId}")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
+    public void deleteMathTask(@PathVariable Long mathTaskId) {
+        service.deleteMathTask(mathTaskId);
+    }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/mathTasks")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public MathTaskDto updateMathTask(@RequestBody MathTaskDto mathTaskDto) {
+        return mathTaskMapper.mapToMathTaskDto(service.saveMathTask(mathTaskMapper.mapToMathTask(mathTaskDto)));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/mathTasks", consumes = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public void createMathTask(@RequestBody MathTaskDto mathTaskDto) {
+        service.saveMathTask(mathTaskMapper.mapToMathTask(mathTaskDto));
     }
 
 }
