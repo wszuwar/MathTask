@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Component
 public class MathTaskMapper {
 
-    public MathTask mapToMathTask(final MathTaskDto mathTaskDto){
+    public MathTask mapToMathTask(final MathTaskDto mathTaskDto) {
         return new MathTask(
                 mathTaskDto.getId(),
                 mathTaskDto.getA(),
@@ -22,7 +22,8 @@ public class MathTaskMapper {
                 mathTaskDto.getReply()
         );
     }
-    public MathTaskDto mapToMathTaskDto(final MathTask mathTask){
+
+    public MathTaskDto mapToMathTaskDto(final MathTask mathTask) {
         return new MathTaskDto(
                 mathTask.getId(),
                 mathTask.getA(),
@@ -34,9 +35,10 @@ public class MathTaskMapper {
                 mathTask.getReply()
         );
     }
-    public List<MathTaskDto> mapToMathTaskDtoList(final List<MathTask> mathTaskList){
+
+    public List<MathTaskDto> mapToMathTaskDtoList(final List<MathTask> mathTaskList) {
         return mathTaskList.stream()
-                .map(m -> new MathTaskDto(m.getId(), m.getA(), m.getTaskType(), m.getB(), m.getResult(), m.isCorrect(),m.getTaskLvl(),m.getReply()))
+                .map(m -> new MathTaskDto(m.getId(), m.getA(), m.getTaskType(), m.getB(), m.getResult(), m.isCorrect(), m.getTaskLvl(), m.getReply()))
                 .collect(Collectors.toList());
     }
 }
